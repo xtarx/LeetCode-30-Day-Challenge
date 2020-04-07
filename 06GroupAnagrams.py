@@ -12,9 +12,8 @@ class Solution:
                 # create a new array in this slot
                 anagramsIndices[sortedWord] = [ strs[index]]
 
-        # print(list(anagramsIndices.values()))
-        return list(anagramsIndices.values())
+        return (anagramsIndices.values())
 
 
 s1 = Solution();
-s1.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])
+print(s1.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
