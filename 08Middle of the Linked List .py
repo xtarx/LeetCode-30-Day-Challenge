@@ -15,16 +15,15 @@ class Solution:
         while head.next != None:
             len+=1
             head=head.next;
-
-        medianIndex=(int(float(len/2)))
+        medianIndex=len//2
         for i in range(medianIndex):
             headOriginal = headOriginal.next;
-        print(headOriginal.val)
         return headOriginal
 
 
 
 s1 = Solution();
+print(5//2)
 inputArr=[1,2,3,4,5]
 x=ListNode(inputArr[0])
 x.next=ListNode(inputArr[1])
