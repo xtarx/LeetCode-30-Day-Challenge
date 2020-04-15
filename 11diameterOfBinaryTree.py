@@ -1,42 +1,46 @@
-class MinStack:
-    index = -1
-    min = float("inf")
-    minIndex = 0
-    stack = []
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
-    def push(self, x: int) -> None:
-        self.index+=1;
-        self.stack.insert(self.index,x)
-        if(x<self.min):
-            self.minIndex=self.index
-            self.min=x
 
-    def finMin(self):
-        if self.index==0:
-            self.minIndex = 0
-            self.min = self.stack[0]
-            return
-        for i in range(self.index+1):
-            if self.stack[i]<self.min:
-                self.minIndex = i
-                self.min = self.stack[i]
+class Solution:
+    def __init__(self):
+        self.arr = []
 
-    def pop(self) -> None:
-        if(self.index<0):
-            return
-
-        if(self.index==self.minIndex):
-            self.index -= 1;
-            self.min = float("inf")
-            self.finMin()
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        if root.left is None and root.right is None:
+            return max(self.findDepth(root.left,1),self.findDepth(root.right,1))
+        elif root.left is None:
+            return self.findDepth(root.right, 1)
         else:
-            self.index-=1;
+            return self.findDepth(root.left, 1)
 
-    def top(self) -> int:
-        if (self.index < 0):
-            return
+    def findDepth(self, root: TreeNode, count) -> int:
+        count = count + 1
+        # print(count)
+        if root is None:
+            return count
 
-        return self.stack[self.index]
+        if root.left:
+            return  self.findDepth(root.left, count)
+        if root.right:
+            return  self.findDepth(root.right, count)
 
-    def getMin(self) -> int:
-        return self.stack[self.minIndex]
+
+s = Solution();
+t1 = TreeNode(1)
+t2 = TreeNode(2)
+t3 = TreeNode(3)
+t4 = TreeNode(4)
+t5 = TreeNode(5)
+t2.left = t4
+t2.right = t5
+t1.left = t2
+t1.right = t3
+
+print(s.diameterOfBinaryTree(t1))
+
+# print(s1.diameterOfBinaryTree("ab#c","ad#c"))
