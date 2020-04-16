@@ -1,11 +1,28 @@
 from typing import List
-
+from functools import reduce
 class Solution:
+
+
+    def productExceptSelf3(self, nums):
+        size = len(nums)
+        ary_left = [1] * size
+        ary_right = [1] * size
+        ary_res = []
+        for i in range(size - 1):
+            ary_left[i + 1] *= ary_left[i] * nums[i]
+
+        for i in range(size - 1, 0, -1):
+            ary_right[i - 1] *= ary_right[i] * nums[i]
+
+        for i in range(size):
+            ary_res.append(ary_left[i] * ary_right[i])
+        return ary_res
+
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         output=[]
 
         # first item
-        output.append(self.multiplyList(nums[1:]))
+        output.append(reduce(lambda x, y: x*y,(nums[1:])))
 
         for i in range(1,len(nums)-1):
             # swap current index with index[0]
@@ -15,27 +32,16 @@ class Solution:
             after=nums[i+1:]
             # print("before",before)
             # print("after",after)
-            prod=self.multiplyList(before) *self.multiplyList(after)
+            # prod=self.multiplyList(before) *self.multiplyList(after)
+            prod=reduce(lambda x, y: x*y,before)*reduce(lambda x, y: x*y,after)
             # print(prod)
             output.append(prod)
         # last item
-        output.append(self.multiplyList(nums[:-1]))
+        output.append(reduce(lambda x, y: x*y,(nums[:-1])))
+
         return output
 
-    def russian_peasant(self,x, y):
-        z = 0
-        while y > 0:
-            if y % 2 == 1: z = z + x
-            x = x << 1
-            y = y >> 1
-        return z
-
-    def multiplyList(self,myList):
-        result = 1
-        for x in myList:
-            result = self.russian_peasant(result,x)
-        return result
 
 
 s = Solution();
-print(s.productExceptSelf([1,2,3,4]))
+print(s.productExceptSelf3([1,2,3,4]))
