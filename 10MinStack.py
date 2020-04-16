@@ -1,22 +1,42 @@
-import collections
-from typing import List
+class MinStack:
+    index = -1
+    min = float("inf")
+    minIndex = 0
+    stack = []
 
+    def push(self, x: int) -> None:
+        self.index+=1;
+        self.stack.insert(self.index,x)
+        if(x<self.min):
+            self.minIndex=self.index
+            self.min=x
 
-class Solution:
+    def finMin(self):
+        if self.index==0:
+            self.minIndex = 0
+            self.min = self.stack[0]
+            return
+        for i in range(self.index+1):
+            if self.stack[i]<self.min:
+                self.minIndex = i
+                self.min = self.stack[i]
 
-    def backspaceCompare(self, S: str, T: str) -> bool:
-        s=""
-        t=""
-        for c in S:
-            if c=="#":
-                s=s[:-1]
-            else:
-                s=s+c
-        for c in T:
-            if c=="#":
-                t=t[:-1]
-            else:
-                t=t+c
-        return s==t
-s1 = Solution();
-print(s1.backspaceCompare("ab#c","ad#c"))
+    def pop(self) -> None:
+        if(self.index<0):
+            return
+
+        if(self.index==self.minIndex):
+            self.index -= 1;
+            self.min = float("inf")
+            self.finMin()
+        else:
+            self.index-=1;
+
+    def top(self) -> int:
+        if (self.index < 0):
+            return
+
+        return self.stack[self.index]
+
+    def getMin(self) -> int:
+        return self.stack[self.minIndex]
